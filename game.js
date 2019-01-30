@@ -5,13 +5,29 @@ let playerChoice = 'o'; // can be 'x' or 'o'
 let botChoice = determineBotChoice(playerChoice);
 let hover = false;
 let over = 'o';
+let gameStarted = false;
 
 function setup() {
     createCanvas(600, 600);
 }
 function draw() {
     background(0);
-    hoverChoice();
+    if (gameStarted) {
+        showYourSymbol();
+    } else {
+        hoverChoice();
+        startButton();
+    }
+}
+
+function showYourSymbol() {
+    fill(200, 200, 200);
+    rect(60, 60, choiceSide, choiceSide);
+    if (playerChoice == 'o') {
+        makeO(90, 90, choiceSide);
+    } else {
+        makeX(90, 90, choiceSide);
+    }
 }
 
 function makeChoice(hover, over) {
@@ -94,5 +110,42 @@ function hoverChoice() {
         over = null;
         makeChoice(hover, over);
     }
+}
 
+function mousePressed() {
+    if (mouseButton == LEFT) {
+        if (mouseX > width / 2 - 10 - choiceSide && mouseX < width / 2 - 10 &&
+            mouseY > choiceStartY && mouseY < choiceStartY + choiceSide) {
+            playerChoice = 'o';
+        } else if (mouseX > width / 2 + 10 && mouseX < width / 2 + 10 + choiceSide &&
+            mouseY > choiceStartY && mouseY < choiceStartY + choiceSide) {
+            playerChoice = 'x';
+        }
+        if (mouseX > width / 2 - 60 && mouseX < width / 2 - 60 + 120 &&
+            mouseY > 200 && mouseY < 200 + 50) {
+            gameStarted = true;
+        }
+    }
+}
+
+function startButton() {
+    push();
+    if (startHover()) {
+        fill(120, 120, 120);
+    } else {
+        fill(80, 80, 80);
+    }
+    rect(width / 2 - 70, 200, 140, 50);
+    textSize(32);
+    fill(255, 255, 255);
+    stroke(255, 255, 255);
+    text('START', width / 2 - 60 + 10, 238);
+    pop();
+}
+
+function startHover() {
+    if (mouseX > width / 2 - 60 && mouseX < width / 2 - 60 + 120 &&
+        mouseY > 200 && mouseY < 200 + 50) {
+        return true;
+    }
 }
