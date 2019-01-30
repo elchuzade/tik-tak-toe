@@ -1,5 +1,3 @@
-console.log('game started');
-
 function setup() {
     createCanvas(1000, 680);
 }
