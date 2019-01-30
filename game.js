@@ -14,6 +14,7 @@ function draw() {
     background(0);
     if (gameStarted) {
         showYourSymbol();
+        grid();
     } else {
         hoverChoice();
         startButton();
@@ -21,6 +22,7 @@ function draw() {
 }
 
 function showYourSymbol() {
+    push();
     fill(200, 200, 200);
     rect(60, 60, choiceSide, choiceSide);
     if (playerChoice == 'o') {
@@ -28,6 +30,18 @@ function showYourSymbol() {
     } else {
         makeX(90, 90, choiceSide);
     }
+    pop();
+}
+
+function grid() {
+    push();
+    translate(width / 2, height / 2);
+    stroke(255, 255, 255);
+    line(-90, -30, 90, -30);
+    line(-90, 30, 90, 30);
+    line(-30, -90, -30, 90);
+    line(30, -90, 30, 90);
+    pop();
 }
 
 function makeChoice(hover, over) {
