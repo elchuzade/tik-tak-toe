@@ -16,15 +16,21 @@ function draw() {
 
 function makeChoice(hover, over) {
     push();
-    if (hover) {
-        fill(200, 200, 200);
-    } else {
-        fill(150, 150, 150);
-    }
+    fill(150, 150, 150);
     rect(width / 2 - 10 - choiceSide, choiceStartY, choiceSide, choiceSide);
     rect(width / 2 + 10, choiceStartY, choiceSide, choiceSide);
     makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
     makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+    if (hover) {
+        fill(200, 200, 200);
+        if (over == 'o') {
+            rect(width / 2 - 10 - choiceSide, choiceStartY, choiceSide, choiceSide);
+            makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+        } else if (over == 'x') {
+            rect(width / 2 + 10, choiceStartY, choiceSide, choiceSide);
+            makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+        }
+    }
     chosenSide(playerChoice);
     pop();
 }
@@ -73,13 +79,20 @@ function determineBotChoice(playerChoice) {
 }
 
 function hoverChoice() {
-    if (mouseX > width / 2 - 10 - choiceSide && mouseX < width / 2 + 10 + choiceSide &&
+    if (mouseX > width / 2 - 10 - choiceSide && mouseX < width / 2 - 10 &&
+        mouseY > choiceStartY && mouseY < choiceStartY + choiceSide) {
+        hover = true;
+        over = 'o';
+        makeChoice(hover, over);
+    } else if (mouseX > width / 2 + 10 && mouseX < width / 2 + 10 + choiceSide &&
         mouseY > choiceStartY && mouseY < choiceStartY + choiceSide) {
         hover = true;
         over = 'x';
-        makeChoice(hover);
+        makeChoice(hover, over);
     } else {
         hover = false;
-        makeChoice(hover);
+        over = null;
+        makeChoice(hover, over);
     }
+
 }
