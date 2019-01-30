@@ -1,13 +1,63 @@
 function setup() {
-    createCanvas(1000, 680);
+    createCanvas(600, 600);
 }
 function draw() {
     background(0);
-    drawRect();
+    makeChoice();
 }
 
-function drawRect() {
-    fill(100, 20, 210);
-    rect(100, 100, 50, 50);
+let state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+let choiceSide = 60;
+let playerChoice = 'o'; // can be 'x' or 'o'
+
+function makeChoice() {
+    push();
+    fill(200, 200, 200);
+    rect(width / 2 - 70, 100, choiceSide, choiceSide);
+    rect(width / 2 + 10, 100, choiceSide, choiceSide);
+    makeO(width / 2 - 70 + choiceSide / 2, 100 + choiceSide / 2, choiceSide);
+    makeX(width / 2 + 10 + choiceSide / 2, 100 + choiceSide / 2, choiceSide);
+    chosenSide(playerChoice);
+    pop();
 }
 
+function chosenSide(playerChoice) {
+    push();
+    stroke(250, 80, 1);
+    strokeWeight(2);
+    noFill();
+    if (playerChoice == 'o') {
+        rect(width / 2 - 70, 100, 60, 60);
+    }
+    pop();
+}
+
+function makeO(x, y, size) {
+    push();
+    translate(x, y);
+    noFill();
+    strokeWeight(4);
+    stroke(20, 20, 20);
+    ellipse(0, 0, size * 0.6);
+    pop();
+    // make 1 to the place a player clicked at
+}
+
+function makeX(x, y, size) {
+    push();
+    translate(x, y);
+    strokeWeight(4);
+    stroke(20, 20, 20);
+    line(-size * 0.3, -size * 0.3, size * 0.3, size * 0.3);
+    line(-size * 0.3, size * 0.3, size * 0.3, -size * 0.3);
+    pop();
+    // make 1 to the place a player clicked at
+}
+
+function determineBotChoice(playerChoice) {
+    let botChoice = 'x';
+    if (playerChoice == 'x') {
+        botChoice = 'o';
+    }
+    return botChoice;
+}
