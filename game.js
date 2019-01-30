@@ -1,22 +1,30 @@
+let state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+let choiceSide = 60;
+let choiceStartY = 100;
+let playerChoice = 'o'; // can be 'x' or 'o'
+let botChoice = determineBotChoice(playerChoice);
+let hover = false;
+let over = 'o';
+
 function setup() {
     createCanvas(600, 600);
 }
 function draw() {
     background(0);
-    makeChoice();
+    hoverChoice();
 }
 
-let state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-let choiceSide = 60;
-let playerChoice = 'o'; // can be 'x' or 'o'
-
-function makeChoice() {
+function makeChoice(hover, over) {
     push();
-    fill(200, 200, 200);
-    rect(width / 2 - 70, 100, choiceSide, choiceSide);
-    rect(width / 2 + 10, 100, choiceSide, choiceSide);
-    makeO(width / 2 - 70 + choiceSide / 2, 100 + choiceSide / 2, choiceSide);
-    makeX(width / 2 + 10 + choiceSide / 2, 100 + choiceSide / 2, choiceSide);
+    if (hover) {
+        fill(200, 200, 200);
+    } else {
+        fill(150, 150, 150);
+    }
+    rect(width / 2 - 10 - choiceSide, choiceStartY, choiceSide, choiceSide);
+    rect(width / 2 + 10, choiceStartY, choiceSide, choiceSide);
+    makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+    makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
     chosenSide(playerChoice);
     pop();
 }
@@ -27,7 +35,9 @@ function chosenSide(playerChoice) {
     strokeWeight(2);
     noFill();
     if (playerChoice == 'o') {
-        rect(width / 2 - 70, 100, 60, 60);
+        rect(width / 2 - 70, choiceStartY, choiceSide, choiceSide);
+    } else {
+        rect(width / 2 + 10, choiceStartY, choiceSide, choiceSide);
     }
     pop();
 }
@@ -60,4 +70,16 @@ function determineBotChoice(playerChoice) {
         botChoice = 'o';
     }
     return botChoice;
+}
+
+function hoverChoice() {
+    if (mouseX > width / 2 - 10 - choiceSide && mouseX < width / 2 + 10 + choiceSide &&
+        mouseY > choiceStartY && mouseY < choiceStartY + choiceSide) {
+        hover = true;
+        over = 'x';
+        makeChoice(hover);
+    } else {
+        hover = false;
+        makeChoice(hover);
+    }
 }
