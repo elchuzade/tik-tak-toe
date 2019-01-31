@@ -6,6 +6,10 @@ let botChoice = determineBotChoice(playerChoice);
 let hover = false;
 let over = 'o';
 let gameStarted = false;
+let playerTurn = true;
+let index = 0;
+let indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
 
 function setup() {
     createCanvas(600, 600);
@@ -15,10 +19,29 @@ function draw() {
     if (gameStarted) {
         showYourSymbol();
         grid();
+        gameLogic();
+        allTurns();
+        //checkWinner();
     } else {
         hoverChoice();
         startButton();
     }
+}
+
+function allTurns() {
+    push();
+    if (state[0] == 1) {
+        if (playerChoice == 'o') {
+            makeO(-60, -60, choiceSide);
+        } else {
+            makeX(-60, -60, choiceSide);
+        }
+    }
+    pop();
+}
+
+function checkWinner() {
+    console.log('checking');
 }
 
 function showYourSymbol() {
@@ -86,7 +109,6 @@ function makeO(x, y, size) {
     stroke(20, 20, 20);
     ellipse(0, 0, size * 0.6);
     pop();
-    // make 1 to the place a player clicked at
 }
 
 function makeX(x, y, size) {
@@ -97,7 +119,6 @@ function makeX(x, y, size) {
     line(-size * 0.3, -size * 0.3, size * 0.3, size * 0.3);
     line(-size * 0.3, size * 0.3, size * 0.3, -size * 0.3);
     pop();
-    // make 1 to the place a player clicked at
 }
 
 function determineBotChoice(playerChoice) {
@@ -137,9 +158,96 @@ function mousePressed() {
         }
         if (mouseX > width / 2 - 60 && mouseX < width / 2 - 60 + 120 &&
             mouseY > 200 && mouseY < 200 + 50) {
-            gameStarted = true;
+            setTimeout(function () {
+                gameStarted = true;
+            }, 1000);
+        }
+        if (gameStarted) {
+            if (playerTurn) {
+                if (mouseX > width / 2 - 90 && mouseX < width / 2 - 30 &&
+                    mouseY > height / 2 - 90 && mouseY < height / 2 - 30 &&
+                    state[0] == 0) {
+                    index = 0;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 - 30 && mouseX < width / 2 + 30 &&
+                    mouseY > height / 2 - 90 && mouseY < height / 2 - 30 &&
+                    state[1] == 0) {
+                    index = 1;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 + 30 && mouseX < width / 2 + 90 &&
+                    mouseY > height / 2 - 90 && mouseY < height / 2 - 30 &&
+                    state[2] == 0) {
+                    index = 2;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 - 90 && mouseX < width / 2 - 30 &&
+                    mouseY > height / 2 - 30 && mouseY < height / 2 + 30 &&
+                    state[3] == 0) {
+                    index = 3;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 - 30 && mouseX < width / 2 + 30 &&
+                    mouseY > height / 2 - 30 && mouseY < height / 2 + 30 &&
+                    state[4] == 0) {
+                    index = 4;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 + 30 && mouseX < width / 2 + 90 &&
+                    mouseY > height / 2 - 30 && mouseY < height / 2 + 30 &&
+                    state[5] == 0) {
+                    index = 5;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 - 90 && mouseX < width / 2 - 30 &&
+                    mouseY > height / 2 + 30 && mouseY < height / 2 + 90 &&
+                    state[6] == 0) {
+                    index = 6;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 - 30 && mouseX < width / 2 + 30 &&
+                    mouseY > height / 2 + 30 && mouseY < height / 2 + 90 &&
+                    state[7] == 0) {
+                    index = 7;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                } else if (mouseX > width / 2 + 30 && mouseX < width / 2 + 90 &&
+                    mouseY > height / 2 + 30 && mouseY < height / 2 + 90 &&
+                    state[8] == 0) {
+                    index = 8;
+                    state[index] = 1;
+                    playerTurn = false;
+                    deleteFromIndexList(index);
+                }
+            }
         }
     }
+}
+
+function deleteFromIndexList(index) {
+    indexList.forEach(function (indexListValue) {
+        if (indexListValue == index) {
+            indexList.splice(index, 1);
+        }
+    });
+}
+
+function botMakeTurn() {
+    let turnIndex = getRandomInt(indexList.length);
+    let turnValue = indexList[turnIndex];
+    console.log('turn value: ', turnValue);
+    state[turnValue] = 2;
+    console.log(state[turnValue]);
+    deleteFromIndexList(state[turnValue]);
 }
 
 function startButton() {
@@ -161,5 +269,17 @@ function startHover() {
     if (mouseX > width / 2 - 60 && mouseX < width / 2 - 60 + 120 &&
         mouseY > 200 && mouseY < 200 + 50) {
         return true;
+    }
+}
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max + 1));
+}
+
+function gameLogic() {
+    if (!playerTurn) {
+        console.log('bot playing');
+        setTimeout(botMakeTurn, 1000);
+        playerTurn = true;
     }
 }
