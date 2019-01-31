@@ -10,6 +10,9 @@ let playerTurn = true;
 let index = 0;
 let indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 let timeToMove = true;
+let gameEnded = false;
+let winner = 'nobody';
+
 
 function setup() {
     createCanvas(600, 600);
@@ -19,13 +22,37 @@ function draw() {
     if (gameStarted) {
         showYourSymbol();
         grid();
-        gameLogic();
+        checkWinner();
         allTurns();
-        //checkWinner();
+        if (!gameEnded) {
+            gameLogic();
+        } else {
+            showWinner();
+        }
     } else {
         hoverChoice();
         startButton();
     }
+}
+
+function showWinner() {
+    push();
+    translate(width / 2, height / 2);
+    fill(50, 50, 50);
+    noStroke();
+    rect(-100, -40, 200, 80);
+    if (winner == 'player') {
+        textSize(40);
+        stroke(0, 255, 0);
+        fill(0, 255, 0);
+        text('You Won', - 80, 15);
+    } else if (winner == 'bot') {
+        textSize(40);
+        fill(255, 0, 0);
+        stroke(255, 0, 0);
+        text('You Lost', - 80, 15);
+    }
+    pop();
 }
 
 function allTurns() {
@@ -34,134 +61,221 @@ function allTurns() {
     // zero index
     if (state[0] == 1) {
         if (playerChoice == 'o') {
-            makeO(-60, -60, choiceSide);
+            makeO(-60, -60, choiceSide, 'bright');
         } else {
-            makeX(-60, -60, choiceSide);
+            makeX(-60, -60, choiceSide, 'bright');
         }
     } else if (state[0] == 2) {
         if (playerChoice == 'o') {
-            makeX(-60, -60, choiceSide);
+            makeX(-60, -60, choiceSide, 'bright');
         } else {
-            makeO(-60, -60, choiceSide);
+            makeO(-60, -60, choiceSide, 'bright');
         }
     }
     // one index
     if (state[1] == 1) {
         if (playerChoice == 'o') {
-            makeO(0, -60, choiceSide);
+            makeO(0, -60, choiceSide, 'bright');
         } else {
-            makeX(0, -60, choiceSide);
+            makeX(0, -60, choiceSide, 'bright');
         }
     } else if (state[1] == 2) {
         if (playerChoice == 'o') {
-            makeX(0, -60, choiceSide);
+            makeX(0, -60, choiceSide, 'bright');
         } else {
-            makeO(0, -60, choiceSide);
+            makeO(0, -60, choiceSide, 'bright');
         }
     }
     // two index
     if (state[2] == 1) {
         if (playerChoice == 'o') {
-            makeO(60, -60, choiceSide);
+            makeO(60, -60, choiceSide, 'bright');
         } else {
-            makeX(60, -60, choiceSide);
+            makeX(60, -60, choiceSide, 'bright');
         }
     } else if (state[2] == 2) {
         if (playerChoice == 'o') {
-            makeX(60, -60, choiceSide);
+            makeX(60, -60, choiceSide, 'bright');
         } else {
-            makeO(60, -60, choiceSide);
+            makeO(60, -60, choiceSide, 'bright');
         }
     }
     // three index
     if (state[3] == 1) {
         if (playerChoice == 'o') {
-            makeO(-60, 0, choiceSide);
+            makeO(-60, 0, choiceSide, 'bright');
         } else {
-            makeX(-60, 0, choiceSide);
+            makeX(-60, 0, choiceSide, 'bright');
         }
     } else if (state[3] == 2) {
         if (playerChoice == 'o') {
-            makeX(-60, 0, choiceSide);
+            makeX(-60, 0, choiceSide, 'bright');
         } else {
-            makeO(-60, 0, choiceSide);
+            makeO(-60, 0, choiceSide, 'bright');
         }
     }
     // four index
     if (state[4] == 1) {
         if (playerChoice == 'o') {
-            makeO(0, 0, choiceSide);
+            makeO(0, 0, choiceSide, 'bright');
         } else {
-            makeX(0, 0, choiceSide);
+            makeX(0, 0, choiceSide, 'bright');
         }
     } else if (state[4] == 2) {
         if (playerChoice == 'o') {
-            makeX(0, 0, choiceSide);
+            makeX(0, 0, choiceSide, 'bright');
         } else {
-            makeO(0, 0, choiceSide);
+            makeO(0, 0, choiceSide, 'bright');
         }
     }
     // five index
     if (state[5] == 1) {
         if (playerChoice == 'o') {
-            makeO(60, 0, choiceSide);
+            makeO(60, 0, choiceSide, 'bright');
         } else {
-            makeX(60, 0, choiceSide);
+            makeX(60, 0, choiceSide, 'bright');
         }
     } else if (state[5] == 2) {
         if (playerChoice == 'o') {
-            makeX(60, 0, choiceSide);
+            makeX(60, 0, choiceSide, 'bright');
         } else {
-            makeO(60, 0, choiceSide);
+            makeO(60, 0, choiceSide, 'bright');
         }
     }
     // six index
     if (state[6] == 1) {
         if (playerChoice == 'o') {
-            makeO(-60, 60, choiceSide);
+            makeO(-60, 60, choiceSide, 'bright');
         } else {
-            makeX(-60, 60, choiceSide);
+            makeX(-60, 60, choiceSide, 'bright');
         }
     } else if (state[6] == 2) {
         if (playerChoice == 'o') {
-            makeX(-60, 60, choiceSide);
+            makeX(-60, 60, choiceSide, 'bright');
         } else {
-            makeO(-60, 60, choiceSide);
+            makeO(-60, 60, choiceSide, 'bright');
         }
     }
     // seven index
     if (state[7] == 1) {
         if (playerChoice == 'o') {
-            makeO(0, 60, choiceSide);
+            makeO(0, 60, choiceSide, 'bright');
         } else {
-            makeX(0, 60, choiceSide);
+            makeX(0, 60, choiceSide, 'bright');
         }
     } else if (state[7] == 2) {
         if (playerChoice == 'o') {
-            makeX(0, 60, choiceSide);
+            makeX(0, 60, choiceSide, 'bright');
         } else {
-            makeO(0, 60, choiceSide);
+            makeO(0, 60, choiceSide, 'bright');
         }
     }
     // eight index
     if (state[8] == 1) {
         if (playerChoice == 'o') {
-            makeO(60, 60, choiceSide);
+            makeO(60, 60, choiceSide, 'bright');
         } else {
-            makeX(60, 60, choiceSide);
+            makeX(60, 60, choiceSide, 'bright');
         }
     } else if (state[8] == 2) {
         if (playerChoice == 'o') {
-            makeX(60, 60, choiceSide);
+            makeX(60, 60, choiceSide, 'bright');
         } else {
-            makeO(60, 60, choiceSide);
+            makeO(60, 60, choiceSide, 'bright');
         }
     }
     pop();
 }
 
 function checkWinner() {
-    console.log('checking');
+    push();
+    strokeWeight(2);
+    stroke(200, 80, 10);
+    translate(width / 2, height / 2);
+    // top horizontal
+    if (state[0] == 1 && state[1] == 1 && state[2] == 1) {
+        line(-90, -60, 90, -60);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[0] == 2 && state[1] == 2 && state[2] == 2) {
+        line(-90, -60, 90, -60);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // center horizontal
+    if (state[3] == 1 && state[4] == 1 && state[5] == 1) {
+        line(-90, 0, 90, 0);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[3] == 2 && state[4] == 2 && state[5] == 2) {
+        line(-90, 0, 90, 0);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // bottom horizontal
+    if (state[6] == 1 && state[7] == 1 && state[8] == 1) {
+        line(-90, 60, 90, 60);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[6] == 2 && state[7] == 2 && state[8] == 2) {
+        line(-90, 60, 90, 60);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // left vertical
+    if (state[0] == 1 && state[3] == 1 && state[6] == 1) {
+        line(-60, -90, -60, 90);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[0] == 2 && state[3] == 2 && state[6] == 2) {
+        line(-60, -90, -60, 90);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // center vertical
+    if (state[1] == 1 && state[4] == 1 && state[7] == 1) {
+        line(0, -90, 0, 90);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[1] == 2 && state[4] == 2 && state[7] == 2) {
+        line(0, -90, 0, 90);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // right vertical
+    if (state[2] == 1 && state[5] == 1 && state[8] == 1) {
+        line(60, -90, 60, 90);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[2] == 2 && state[5] == 2 && state[8] == 2) {
+        line(60, -90, 60, 90);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // left-top right-bottom
+    if (state[0] == 1 && state[4] == 1 && state[8] == 1) {
+        line(-90, -90, 90, 90);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[0] == 2 && state[4] == 2 && state[8] == 2) {
+        line(-90, -90, 90, 90);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    // right-top left-bottom
+    if (state[2] == 1 && state[4] == 1 && state[6] == 1) {
+        line(-90, 90, 90, -90);
+        winner = 'player';
+        console.log('player won');
+    } else if (state[2] == 2 && state[4] == 2 && state[6] == 2) {
+        line(-90, 90, 90, -90);
+        winner = 'bot';
+        console.log('bot won');
+    }
+    pop();
+    if (winner == 'player' || winner == 'bot') {
+        gameEnded = true;
+    }
 }
 
 function showYourSymbol() {
@@ -169,9 +283,9 @@ function showYourSymbol() {
     fill(200, 200, 200);
     rect(60, 60, choiceSide, choiceSide);
     if (playerChoice == 'o') {
-        makeO(90, 90, choiceSide);
+        makeO(90, 90, choiceSide, 'dark');
     } else {
-        makeX(90, 90, choiceSide);
+        makeX(90, 90, choiceSide, 'dark');
     }
     pop();
 }
@@ -192,16 +306,16 @@ function makeChoice(hover, over) {
     fill(150, 150, 150);
     rect(width / 2 - 10 - choiceSide, choiceStartY, choiceSide, choiceSide);
     rect(width / 2 + 10, choiceStartY, choiceSide, choiceSide);
-    makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
-    makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+    makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide, 'dark');
+    makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide, 'dark');
     if (hover) {
         fill(200, 200, 200);
         if (over == 'o') {
             rect(width / 2 - 10 - choiceSide, choiceStartY, choiceSide, choiceSide);
-            makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+            makeO(width / 2 - 10 - choiceSide + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide, 'dark');
         } else if (over == 'x') {
             rect(width / 2 + 10, choiceStartY, choiceSide, choiceSide);
-            makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide);
+            makeX(width / 2 + 10 + choiceSide / 2, choiceStartY + choiceSide / 2, choiceSide, 'dark');
         }
     }
     chosenSide(playerChoice);
@@ -221,21 +335,29 @@ function chosenSide(playerChoice) {
     pop();
 }
 
-function makeO(x, y, size) {
+function makeO(x, y, size, mode) {
     push();
     translate(x, y);
     noFill();
     strokeWeight(4);
-    stroke(20, 20, 20);
+    if (mode == 'bright') {
+        stroke(220, 220, 220);
+    } else if (mode == 'dark') {
+        stroke(20, 20, 20);
+    }
     ellipse(0, 0, size * 0.6);
     pop();
 }
 
-function makeX(x, y, size) {
+function makeX(x, y, size, mode) {
     push();
     translate(x, y);
     strokeWeight(4);
-    stroke(20, 20, 20);
+    if (mode == 'bright') {
+        stroke(220, 220, 220);
+    } else if (mode == 'dark') {
+        stroke(20, 20, 20);
+    }
     line(-size * 0.3, -size * 0.3, size * 0.3, size * 0.3);
     line(-size * 0.3, size * 0.3, size * 0.3, -size * 0.3);
     pop();
@@ -406,7 +528,6 @@ function getRandomInt(max) {
 
 function gameLogic() {
     if (!playerTurn) {
-        console.log('bot playing');
         setTimeout(botMakeTurn, 1000);
         playerTurn = true;
     }
