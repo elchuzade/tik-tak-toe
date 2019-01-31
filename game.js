@@ -9,7 +9,7 @@ let gameStarted = false;
 let playerTurn = true;
 let index = 0;
 let indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-
+let timeToMove = true;
 
 function setup() {
     createCanvas(600, 600);
@@ -283,13 +283,14 @@ function mousePressed() {
             }, 1000);
         }
         if (gameStarted) {
-            if (playerTurn) {
+            if (playerTurn && timeToMove) {
                 if (mouseX > width / 2 - 90 && mouseX < width / 2 - 30 &&
                     mouseY > height / 2 - 90 && mouseY < height / 2 - 30 &&
                     state[0] == 0) {
                     index = 0;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 - 30 && mouseX < width / 2 + 30 &&
                     mouseY > height / 2 - 90 && mouseY < height / 2 - 30 &&
@@ -297,6 +298,7 @@ function mousePressed() {
                     index = 1;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 + 30 && mouseX < width / 2 + 90 &&
                     mouseY > height / 2 - 90 && mouseY < height / 2 - 30 &&
@@ -304,6 +306,7 @@ function mousePressed() {
                     index = 2;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 - 90 && mouseX < width / 2 - 30 &&
                     mouseY > height / 2 - 30 && mouseY < height / 2 + 30 &&
@@ -311,6 +314,7 @@ function mousePressed() {
                     index = 3;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 - 30 && mouseX < width / 2 + 30 &&
                     mouseY > height / 2 - 30 && mouseY < height / 2 + 30 &&
@@ -318,6 +322,7 @@ function mousePressed() {
                     index = 4;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 + 30 && mouseX < width / 2 + 90 &&
                     mouseY > height / 2 - 30 && mouseY < height / 2 + 30 &&
@@ -325,6 +330,7 @@ function mousePressed() {
                     index = 5;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 - 90 && mouseX < width / 2 - 30 &&
                     mouseY > height / 2 + 30 && mouseY < height / 2 + 90 &&
@@ -332,6 +338,7 @@ function mousePressed() {
                     index = 6;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 - 30 && mouseX < width / 2 + 30 &&
                     mouseY > height / 2 + 30 && mouseY < height / 2 + 90 &&
@@ -339,6 +346,7 @@ function mousePressed() {
                     index = 7;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 } else if (mouseX > width / 2 + 30 && mouseX < width / 2 + 90 &&
                     mouseY > height / 2 + 30 && mouseY < height / 2 + 90 &&
@@ -346,6 +354,7 @@ function mousePressed() {
                     index = 8;
                     state[index] = 1;
                     playerTurn = false;
+                    timeToMove = false;
                     deleteFromIndexList(index);
                 }
             }
@@ -354,20 +363,19 @@ function mousePressed() {
 }
 
 function deleteFromIndexList(index) {
-    indexList.forEach(function (indexListValue) {
-        if (indexListValue == index) {
-            indexList.splice(index, 1);
+    for (let i = 0; i < indexList.length; i++) {
+        if (indexList[i] == index) {
+            indexList.splice(i, 1);
         }
-    });
+    }
 }
 
 function botMakeTurn() {
-    let turnIndex = getRandomInt(indexList.length);
+    let turnIndex = getRandomInt(indexList.length - 1);
     let turnValue = indexList[turnIndex];
-    console.log('turn value: ', turnValue);
     state[turnValue] = 2;
-    console.log(state[turnValue]);
-    deleteFromIndexList(state[turnValue]);
+    deleteFromIndexList(turnValue);
+    timeToMove = true;
 }
 
 function startButton() {
