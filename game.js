@@ -30,11 +30,131 @@ function draw() {
 
 function allTurns() {
     push();
+    translate(width / 2, height / 2);
+    // zero index
     if (state[0] == 1) {
         if (playerChoice == 'o') {
             makeO(-60, -60, choiceSide);
         } else {
             makeX(-60, -60, choiceSide);
+        }
+    } else if (state[0] == 2) {
+        if (playerChoice == 'o') {
+            makeX(-60, -60, choiceSide);
+        } else {
+            makeO(-60, -60, choiceSide);
+        }
+    }
+    // one index
+    if (state[1] == 1) {
+        if (playerChoice == 'o') {
+            makeO(0, -60, choiceSide);
+        } else {
+            makeX(0, -60, choiceSide);
+        }
+    } else if (state[1] == 2) {
+        if (playerChoice == 'o') {
+            makeX(0, -60, choiceSide);
+        } else {
+            makeO(0, -60, choiceSide);
+        }
+    }
+    // two index
+    if (state[2] == 1) {
+        if (playerChoice == 'o') {
+            makeO(60, -60, choiceSide);
+        } else {
+            makeX(60, -60, choiceSide);
+        }
+    } else if (state[2] == 2) {
+        if (playerChoice == 'o') {
+            makeX(60, -60, choiceSide);
+        } else {
+            makeO(60, -60, choiceSide);
+        }
+    }
+    // three index
+    if (state[3] == 1) {
+        if (playerChoice == 'o') {
+            makeO(-60, 0, choiceSide);
+        } else {
+            makeX(-60, 0, choiceSide);
+        }
+    } else if (state[3] == 2) {
+        if (playerChoice == 'o') {
+            makeX(-60, 0, choiceSide);
+        } else {
+            makeO(-60, 0, choiceSide);
+        }
+    }
+    // four index
+    if (state[4] == 1) {
+        if (playerChoice == 'o') {
+            makeO(0, 0, choiceSide);
+        } else {
+            makeX(0, 0, choiceSide);
+        }
+    } else if (state[4] == 2) {
+        if (playerChoice == 'o') {
+            makeX(0, 0, choiceSide);
+        } else {
+            makeO(0, 0, choiceSide);
+        }
+    }
+    // five index
+    if (state[5] == 1) {
+        if (playerChoice == 'o') {
+            makeO(60, 0, choiceSide);
+        } else {
+            makeX(60, 0, choiceSide);
+        }
+    } else if (state[5] == 2) {
+        if (playerChoice == 'o') {
+            makeX(60, 0, choiceSide);
+        } else {
+            makeO(60, 0, choiceSide);
+        }
+    }
+    // six index
+    if (state[6] == 1) {
+        if (playerChoice == 'o') {
+            makeO(-60, 60, choiceSide);
+        } else {
+            makeX(-60, 60, choiceSide);
+        }
+    } else if (state[6] == 2) {
+        if (playerChoice == 'o') {
+            makeX(-60, 60, choiceSide);
+        } else {
+            makeO(-60, 60, choiceSide);
+        }
+    }
+    // seven index
+    if (state[7] == 1) {
+        if (playerChoice == 'o') {
+            makeO(0, 60, choiceSide);
+        } else {
+            makeX(0, 60, choiceSide);
+        }
+    } else if (state[7] == 2) {
+        if (playerChoice == 'o') {
+            makeX(0, 60, choiceSide);
+        } else {
+            makeO(0, 60, choiceSide);
+        }
+    }
+    // eight index
+    if (state[8] == 1) {
+        if (playerChoice == 'o') {
+            makeO(60, 60, choiceSide);
+        } else {
+            makeX(60, 60, choiceSide);
+        }
+    } else if (state[8] == 2) {
+        if (playerChoice == 'o') {
+            makeX(60, 60, choiceSide);
+        } else {
+            makeO(60, 60, choiceSide);
         }
     }
     pop();
